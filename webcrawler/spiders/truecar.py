@@ -4,6 +4,8 @@ from twisted.internet.error import DNSLookupError, TCPTimedOutError
 
 from webcrawler.items import Vehicle
 
+MAPPING = {'Exterior Color': 'exterior', 'Interior Color': 'interior', 'Drive Type': 'drive', 'Fuel Type': 'fuel'}
+
 NEXT_PAGE_SELECTOR = 'ul.pagination > li:nth-last-child(2) > .pagination-link'
 
 SPIDER_NAME = 'truecar'
@@ -72,20 +74,27 @@ class TrueCarSpider(scrapy.Spider):
                 info = info.css('::text').extract()
                 del info[1:3]
                 self.logger.debug(info)
-                item[info[0].lower()] = info[1].replace(' miles', '')
+                item[info[0].lower()] = info[1]
             yield item
-            # request = scrapy.Request(response.urljoin(url), callback=self.parse_details, errback=self.errback_httpbin)
-            # request.meta['item'] = item
-            # yield request
+            request = scrapy.Request(response.urljoin(url), callback=self.parse_details, errback=self.errback_httpbin)
+            request.meta['item'] = item
+            yield request
         next_page = response.css(NEXT_PAGE_SELECTOR).extract_first()
         if next_page:
             yield scrapy.Request(response.urljoin(next_page), callback=self.parse, errback=self.errback_httpbin)
 
     def parse_details(self, response):
-        # item = response.meta['item']
-        self.logger.info('-----------------------------------details-----------------------------------')
+        item = response.meta['item']
         self.logger.info("Visited %s", response.url)
-        # yield item
+        overview = response.css('div.media h4')
+        for prop in overview:
+            title = prop.css('.emphasized-feature-title::text').extract_first()
+            description = prop.css('.emphasized-feature-description::text').extract_first()
+            self.logger.debug('Property %s - %s' % (title, description))
+            key = MAPPING.get(title)
+            if key:
+                item[key.lower()] = description
+        yield item
 
     def errback_httpbin(self, failure):
         # log all failures

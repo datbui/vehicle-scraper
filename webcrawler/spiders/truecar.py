@@ -4,7 +4,7 @@ from twisted.internet.error import DNSLookupError, TCPTimedOutError
 
 from webcrawler.items import Vehicle
 
-MAPPING = {'Exterior Color': 'exterior', 'Interior Color': 'interior', 'Drive Type': 'drive', 'Fuel Type': 'fuel'}
+MAPPING = {'Exterior Color': 'exterior', 'Interior Color': 'interior', 'Drive Type': 'drive', 'Fuel Type': 'fuel', 'Engine': 'engine', 'Transmission': 'transmission'}
 
 NEXT_PAGE_SELECTOR = 'ul.pagination > li:nth-last-child(2) > .pagination-link'
 

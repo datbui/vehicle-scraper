@@ -63,7 +63,7 @@ class TrueCarSpider(scrapy.Spider):
             self.logger.info('Processing vehicle ... %s %s %s' % (title, modification, url))
             item = Vehicle()
             item['name'] = title
-            title = title.split(' ')
+            title = title.split(' ', 2)
             item['year'] = title[0]
             item['make'] = title[1]
             item['model'] = title[2]

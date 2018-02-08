@@ -56,7 +56,8 @@ class AutotraderSpider(scrapy.Spider):
                 url = ROOT_PATH % a
                 self.logger.debug("url  %s", url)
                 title = car.css('strong::text').extract_first()
-                self.logger.debug("title  %s", title)
+                item['name'] = title
+                self.logger.debug("name  %s", title)
                 title = title.split(' ', 3)
                 item = Vehicle()
                 item['url'] = url
@@ -99,7 +100,7 @@ class AutotraderSpider(scrapy.Spider):
             key = prop.css('.text-gray::text').extract_first()
             value = prop.css('td:nth-child(2) > span > span::text').extract_first()
             value = prop.css('td:nth-child(2)::text').extract_first() if not value else value
-            self.logger.info("prop %s  %s", key, value)
+            self.logger.debug("prop %s  %s", key, value)
             key = MAPPING.get(key)
             if key:
                 item[key.lower()] = value

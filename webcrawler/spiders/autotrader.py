@@ -56,10 +56,10 @@ class AutotraderSpider(scrapy.Spider):
                 url = ROOT_PATH % a
                 self.logger.debug("url  %s", url)
                 title = car.css('strong::text').extract_first()
+                item = Vehicle()
                 item['name'] = title
                 self.logger.debug("name  %s", title)
                 title = title.split(' ', 3)
-                item = Vehicle()
                 item['url'] = url
                 year = title[1]
                 item['year'] = year

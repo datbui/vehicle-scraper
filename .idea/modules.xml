@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/../OlxScraper/.idea/OlxScraper.iml" filepath="$PROJECT_DIR$/../OlxScraper/.idea/OlxScraper.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../vehicle-scraper/.idea/vehicle-scraper.iml" filepath="$PROJECT_DIR$/../vehicle-scraper/.idea/vehicle-scraper.iml" />
-    </modules>
-  </component>
-</project>
